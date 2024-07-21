@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -12,15 +13,15 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  String _roll = ''; // Initialize with an empty string
-  String _pitch = ''; // Initialize with an empty string
+  String _roll = 'NA'; // Initialize with an empty string
+  String _pitch = 'NA'; // Initialize with an empty string
 
-  String _roll1 = ''; // Initialize with an empty string
-  String _pitch1 = ''; // Initialize with an empty string
-  
-  String _roll2 = ''; // Initialize with an empty string
-  String _pitch2 = ''; // Initialize with an empty string
-    
+  String _roll1 = 'NA'; // Initialize with an empty string
+  String _pitch1 = 'NA'; // Initialize with an empty string
+
+  String _roll2 = 'NA'; // Initialize with an empty string
+  String _pitch2 = 'NA'; // Initialize with an empty string
+
   @override
   void initState() {
     super.initState();
@@ -32,8 +33,8 @@ class _MyAppState extends State<MyApp> {
     SSEClient.subscribeToSSE(
       method: SSERequestType.GET,
       // Get from web server
-      url: 'http://192.168.0.179/events', 
-      // Personal Hotspot 
+      url: 'http://192.168.0.179/events',
+      // Personal Hotspot
       // url: 'http://192.168.43.109/events',
       header: {},
     ).listen(
@@ -56,12 +57,18 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Calibrate roll and pitch
-  void calibrateSensor() {
-    http.get(Uri.parse('http://192.168.0.179/calibrate1'));
-    
+  void calibrateSensor(String sensor) {
+    http.get(Uri.parse('http://192.168.0.179/$sensor'));
+
     // Personal Hotspot
     // http.get(Uri.parse('http://192.168.43.109/calibrate1'));
   }
+
+  // Debugging function for testing only!
+  // Remove it when deploy
+  // void sayHi() {
+  //   print("You pressed a button!");
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -100,14 +107,19 @@ class _MyAppState extends State<MyApp> {
             ],
           ),
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: SpeedDial(
           tooltip: 'Calibrate',
-          onPressed: calibrateSensor,
-          backgroundColor: Colors.lightBlueAccent,
-          child: const Icon(
-            Icons.compass_calibration,
-            color: Colors.white,
-          ),
+          animatedIcon: AnimatedIcons.menu_close,
+          children: [
+            SpeedDialChild(
+              label: 'Sensor 1',
+              onTap: () => calibrateSensor('calibrate1'),
+            ),
+            SpeedDialChild(
+              label: 'Sensor 2',
+              onTap: () => calibrateSensor('calibrate2'),
+            ),
+          ],
         ),
       ),
     );
