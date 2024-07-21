@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -21,6 +22,9 @@ class _MyAppState extends State<MyApp> {
 
   String _roll2 = 'NA'; // Initialize with an empty string
   String _pitch2 = 'NA'; // Initialize with an empty string
+
+  Future<String>? _future;
+  String? _data;
 
   @override
   void initState() {
@@ -57,18 +61,23 @@ class _MyAppState extends State<MyApp> {
   }
 
   // Calibrate roll and pitch
-  void calibrateSensor(String sensor) {
-    http.get(Uri.parse('http://192.168.0.179/$sensor'));
+  Future<String> calibrateSensor(String sensor) async {
+    final response = await http.get(Uri.parse('http://192.168.0.179/$sensor'));
+    if (response.statusCode == 200) {
+      return response.body;
+    } else {
+      throw Exception("Failed to calibrate");
+    }
 
     // Personal Hotspot
-    // http.get(Uri.parse('http://192.168.43.109/calibrate1'));
+    // final response = await http.get(Uri.parse('http://192.168.43.109/$sensor'));
   }
 
   // Debugging function for testing only!
   // Remove it when deploy
-  // void sayHi() {
-  //   print("You pressed a button!");
-  // }
+  void sayHi() {
+    print("You pressed a button!");
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -104,6 +113,32 @@ class _MyAppState extends State<MyApp> {
                   pitch: _pitch2,
                 ),
               ),
+              SizedBox(height: 20),
+              _future == null
+                  ? _data == null
+                      ? Text('Press the button to calibrate')
+                      : Text('$_data')
+                  : FutureBuilder<String>(
+                      future: _future,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return CircularProgressIndicator();
+                        } else if (snapshot.hasError) {
+                          return Text('Error: ${snapshot.error}');
+                        } else if (snapshot.hasData) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            setState(() {
+                              _data = snapshot.data;
+                              _future = null;
+                            });
+                          });
+                          return SizedBox.shrink();
+                        } else {
+                          return Text('Unknown state');
+                        }
+                      },
+                    ),
             ],
           ),
         ),
@@ -113,11 +148,11 @@ class _MyAppState extends State<MyApp> {
           children: [
             SpeedDialChild(
               label: 'Sensor 1',
-              onTap: () => calibrateSensor('calibrate1'),
+              onTap: () => {_future = calibrateSensor('calibrate1')},
             ),
             SpeedDialChild(
               label: 'Sensor 2',
-              onTap: () => calibrateSensor('calibrate2'),
+              onTap: () => {_future = calibrateSensor('calibrate2')},
             ),
           ],
         ),
