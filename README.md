@@ -13,9 +13,9 @@ Following through Flutter documentation will get you the list of tools used for 
 
 ## Verions
 
-Flutter: **3.22.2**
-Dart: **3.4.3**
-Android Emulator: **Pixel 3a API 34**
+- Flutter: **3.22.2**
+- Dart: **3.4.3**
+- Android Emulator: **Pixel 3a API 34**
 
 ## Installation of dependencies
 
