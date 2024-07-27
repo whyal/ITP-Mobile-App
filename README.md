@@ -37,4 +37,4 @@ as the targeted device to run the project. After which you can press **F5** to s
 
 ## Sidenotes
 
-With the MPU6050 sensors, the project will only display *NA* for all the values of pitch and roll.
+Without the MPU6050 sensors, the project will only display *NA* for all the values of pitch and roll.
