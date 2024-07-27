@@ -11,6 +11,12 @@ Following through Flutter documentation will get you the list of tools used for 
 - Android Studio
 - VS Code
 
+## Verions
+
+Flutter: **3.22.2**
+Dart: **3.4.3**
+Android Emulator: **Pixel 3a API 34**
+
 ## Installation of dependencies
 
 Open the project repo on VS Code and run this command in its terminal to install all packages 
@@ -22,7 +28,7 @@ flutter pub get
 
 ## Android Emulator setup
 
-This project uses Emulator from Android Studio specifically **Pixel 3a API 34**.
+Create an Android Virtual Device on Android Studio specifically the **Pixel 3a API 34** version.
 
 ## Running of Application
 
