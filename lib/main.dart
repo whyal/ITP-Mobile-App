@@ -37,7 +37,8 @@ class _MyAppState extends State<MyApp> {
     SSEClient.subscribeToSSE(
       method: SSERequestType.GET,
       // Get from web server
-      url: 'http://192.168.0.179/events',
+      url:
+          'http://192.168.0.179/events', // change the IP address to the IP address that your ESP32 uses
       // Personal Hotspot
       // url: 'http://192.168.43.109/events',
       header: {},
@@ -62,7 +63,8 @@ class _MyAppState extends State<MyApp> {
 
   // Calibrate roll and pitch
   Future<String> calibrateSensor(String sensor) async {
-    final response = await http.get(Uri.parse('http://192.168.0.179/$sensor'));
+    final response = await http.get(Uri.parse(
+        'http://192.168.0.179/$sensor')); // change the IP address to the IP address that your ESP32 uses
     if (response.statusCode == 200) {
       return response.body;
     } else {
