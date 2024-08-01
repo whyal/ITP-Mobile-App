@@ -12,6 +12,7 @@ dependencies:
   http: ^1.2.1
   flutter_client_sse: ^2.0.1
   flutter_speed_dial: ^7.0.0
+  flutter_native_splash: ^2.4.1
 
 dev_dependencies:
   flutter_test:
@@ -20,3 +21,9 @@ dev_dependencies:
 
 flutter:
   uses-material-design: true
+
+flutter_native_splash:
+  color: "#ffffff"
+  android_12:
+    image: assets/KINGPOST.png
+

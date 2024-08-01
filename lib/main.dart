@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_client_sse/constants/sse_request_type_enum.dart';
 import 'package:flutter_client_sse/flutter_client_sse.dart';
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
@@ -73,12 +74,6 @@ class _MyAppState extends State<MyApp> {
 
     // Personal Hotspot
     // final response = await http.get(Uri.parse('http://192.168.43.109/$sensor'));
-  }
-
-  // Debugging function for testing only!
-  // Remove it when deploy
-  void sayHi() {
-    print("You pressed a button!");
   }
 
   @override
@@ -194,4 +189,9 @@ class _SampleCard extends StatelessWidget {
   }
 }
 
-void main() => runApp(const MyApp());
+void main() {
+  WidgetsBinding widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
+  runApp(const MyApp());
+  FlutterNativeSplash.remove();
+}
