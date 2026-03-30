@@ -11,7 +11,7 @@ Following through Flutter documentation will get you the list of tools used for 
 - Android Studio
 - VS Code
 
-## Verions
+## Versions
 
 - Flutter: **3.22.2**
 - Dart: **3.4.3**
